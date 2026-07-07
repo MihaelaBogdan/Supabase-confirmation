@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "name": "cityscape-email-confirm",
+  "public": true,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "BACKEND_URL": "@backend-url"
+  }
+}
