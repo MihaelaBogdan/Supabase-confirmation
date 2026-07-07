@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmare Email - CityScape</title>
+    <title>Email Confirmat - CityScape</title>
     <style>
         * {
             margin: 0;
@@ -21,180 +21,15 @@
             padding: 20px;
         }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
-            padding: 60px 40px;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        .brand {
-            color: #10B981;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: scaleIn 0.6s ease-out;
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
         h1 {
-            color: #10B981;
-            margin-bottom: 15px;
-            font-size: 28px;
-        }
-
-        .status {
-            margin-bottom: 25px;
-            font-size: 16px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .success {
-            background: #f0fdf4;
-            border: 2px solid #10B981;
-            color: #166534;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-        }
-
-        .error {
-            background: #fef2f2;
-            border: 2px solid #ef4444;
-            color: #7f1d1d;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f0f0f0;
-            border-top: 4px solid #10B981;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .next-steps {
-            background: #f0fdf4;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            text-align: left;
-            border-left: 4px solid #10B981;
-        }
-
-        .next-steps h3 {
-            color: #10B981;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .next-steps ol {
-            margin-left: 20px;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
             color: white;
-            padding: 15px 40px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #10B981;
-            margin-left: 10px;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #999;
-            font-size: 12px;
-        }
-
-        .cityscape-badge {
-            display: inline-block;
-            background: #10B981;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 15px;
+            font-size: 48px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="loading" style="display: none;">
-            <div class="loading"></div>
-            <h1>Se procesează...</h1>
-            <p class="status">Te rog asteaptă, confirmăm emailul tău.</p>
-        </div>
-
-        <div id="success" style="display: none;">
-            <h1 style="color: #10B981; font-size: 32px;">Email Confirmat</h1>
-        </div>
-
-        <div id="error" style="display: none;">
-            <div class="icon">⚠️</div>
-            <h1>Eroare!</h1>
-            <div class="error" id="error-message">
-                Linkul de confirmare a expirat sau nu e valid. Te rog, încearcă din nou.
-            </div>
-        </div>
-    </div>
+    <h1>Email Confirmat</h1>
 
     <script>
         // Get token and type from URL parameters
@@ -202,18 +37,8 @@
         const token = urlParams.get('token');
         const type = urlParams.get('type');
 
-        // Show loading screen
-        document.getElementById('loading').style.display = 'block';
-
-        if (!token || type !== 'email') {
-            showError('Token invalid sau inexistent.');
-        } else {
+        if (token && type === 'email') {
             // Call backend to confirm email
-            confirmEmailWithBackend(token);
-        }
-
-        function confirmEmailWithBackend(token) {
-            // Backend URL - set via environment variable or direct
             const backendUrl = window.location.origin.includes('localhost')
                 ? 'http://localhost:5002'
                 : 'https://cityscape-backend.onrender.com';
@@ -225,40 +50,9 @@
                 },
                 body: JSON.stringify({ token: token })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showSuccess();
-                } else {
-                    showError(data.message || 'Eroare la confirmare.');
-                }
-            })
             .catch(error => {
                 console.error('Error:', error);
-                showError('Eroare de conectare. Te rog încearcă mai târziu.');
             });
-        }
-
-        function showSuccess() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('success').style.display = 'block';
-        }
-
-        function showError(message) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error-message').textContent = message;
-        }
-
-        function goBackToApp() {
-            // Try to open the app via deep link
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                setTimeout(() => {
-                    window.location.href = 'cityscape://login';
-                }, 100);
-            } else {
-                alert('Deschide aplicația CityScape pe telefonul tău și te conectează cu emailul și parola tale.');
-            }
         }
     </script>
 </body>
